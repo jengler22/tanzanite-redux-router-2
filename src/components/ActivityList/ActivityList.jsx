@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 function ActivityList () {
 const dispatch = useDispatch();
+const activities = useSelector(store => store.activities);
 
     useEffect(() => {
         fetchActivityList
@@ -12,7 +13,7 @@ const dispatch = useDispatch();
 
     const fetchActivityList = () => {
         axios.get('/activity').then(response => {
-            dispatch({ type: 'SET_ACTIVITY_LIST', payload: response.date});
+            dispatch({ type: 'SET_ACTIVITY_LIST', payload: response.data});
 
         }).catch(error => {
             alert('something went wrong')
@@ -22,6 +23,17 @@ const dispatch = useDispatch();
     return(
         <>
         <h3>List</h3>
+        {
+            activities.map(activity => (
+                <div key={activity.id}>
+                    <p>Name: {activity.name} </p>
+                    <p>Type: {activity.type} </p>
+                    <p>Minutes: {activity.minutes} </p>
+                    <p>Miles: {activity.miles} </p>
+                    <hr />
+                </div>
+            ))
+        }
         </>
     )
 }
